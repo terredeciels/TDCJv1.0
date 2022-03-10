@@ -1,11 +1,9 @@
 package perft;
 
-import perft.PerftCompare.PerftResult;
-import base.FenToBoard;
 import base.Board;
 import base.Move;
+import perft.PerftCompare.PerftResult;
 
-import java.io.IOException;
 import java.util.List;
 
 public class PerftSpeed {

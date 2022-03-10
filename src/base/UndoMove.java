@@ -7,5 +7,4 @@ class UndoMove {
     int castle;
     int ep;
     int fifty;
-    //public int hash;
 }

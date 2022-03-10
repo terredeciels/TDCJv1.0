@@ -12,10 +12,10 @@ public class Board implements Constants {
     public int castle;
     public int ep;
     public List<Move> pseudomoves = new ArrayList<>();
-    private int fifty;
-    private UndoMove um = new UndoMove();
     public int halfMoveClock;
     public int plyNumber;
+    private int fifty;
+    private UndoMove um = new UndoMove();
 
     public Board() {
     }
@@ -65,7 +65,7 @@ public class Board implements Constants {
                     }
                 } else {
                     for (int j = 0; j < offsets[piece[i]]; ++j) {
-                        for (int n = i;;) {
+                        for (int n = i; ; ) {
                             n = mailbox[mailbox64[n] + offset[piece[i]][j]];
                             if (n == -1) {
                                 break;
@@ -124,7 +124,7 @@ public class Board implements Constants {
                     }
                 } else {
                     for (j = 0; j < offsets[piece[i]]; ++j) {
-                        for (n = i;;) {
+                        for (n = i; ; ) {
                             n = mailbox[mailbox64[n] + offset[piece[i]][j]];
                             if (n == -1) {
                                 break;
@@ -281,10 +281,10 @@ public class Board implements Constants {
         if ((m.bits & 32) != 0) {
             piece[m.to] = m.promote;
         } else {
-            piece[ m.to] = piece[ m.from];
+            piece[m.to] = piece[m.from];
         }
-        color[ m.from] = EMPTY;
-        piece[ m.from] = EMPTY;
+        color[m.from] = EMPTY;
+        piece[m.from] = EMPTY;
 
         /* erase the pawn if this is an en passant move */
         if ((m.bits & 4) != 0) {
@@ -317,18 +317,18 @@ public class Board implements Constants {
         ep = um.ep;
         fifty = um.fifty;
 
-        color[ m.from] = side;
+        color[m.from] = side;
         if ((m.bits & 32) != 0) {
-            piece[ m.from] = PAWN;
+            piece[m.from] = PAWN;
         } else {
-            piece[ m.from] = piece[ m.to];
+            piece[m.from] = piece[m.to];
         }
         if (um.capture == EMPTY) {
-            color[ m.to] = EMPTY;
-            piece[ m.to] = EMPTY;
+            color[m.to] = EMPTY;
+            piece[m.to] = EMPTY;
         } else {
-            color[ m.to] = xside;
-            piece[ m.to] = um.capture;
+            color[m.to] = xside;
+            piece[m.to] = um.capture;
         }
         if ((m.bits & 2) != 0) {
             int from;

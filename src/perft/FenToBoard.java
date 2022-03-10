@@ -1,6 +1,8 @@
-package base;
+package perft;
 
 
+import base.Board;
+import base.Constants;
 
 public class FenToBoard implements Constants {
 

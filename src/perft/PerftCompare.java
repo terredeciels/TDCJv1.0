@@ -1,6 +1,5 @@
 package perft;
 
-import base.FenToBoard;
 import base.Board;
 import base.Constants;
 import base.Move;
@@ -16,7 +15,7 @@ public class PerftCompare implements Constants {
     public static void main(String[] args) throws IOException {
         int maxDepth = 5;
         File directory = new File(".");
-        FileReader fileReader = new FileReader(directory.getCanonicalPath()+"/src/perft/perftsuite.epd");
+        FileReader fileReader = new FileReader(directory.getCanonicalPath() + "/src/perft/perftsuite.epd");
         BufferedReader reader = new BufferedReader(fileReader);
         String line;
         int passes = 0;
