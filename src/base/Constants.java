@@ -12,15 +12,15 @@ public interface Constants {
             BLACK_SHORT_CASTLE = 8;
     short MIN_STONE = -6, MAX_STONE = 6, NO_STONE = 0;
     int NO_COL = -1, NO_ROW = -1, NO_SQUARE = -1;
-    int LIGHT = 0;
-    int DARK = 1;
+    int BLANC = 0;
+    int NOIR = 1;
     int PAWN = 0;
     int KNIGHT = 1;
     int BISHOP = 2; // usage ?
     int ROOK = 3;
     int QUEEN = 4;
     int KING = 5;
-    int EMPTY = 6;
+    int VIDE = 6;
     int A1 = 56;
     int B1 = 57;
     int C1 = 58;
