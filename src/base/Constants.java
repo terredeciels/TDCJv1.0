@@ -1,4 +1,4 @@
-package tscp;
+package base;
 
 public interface Constants {
 

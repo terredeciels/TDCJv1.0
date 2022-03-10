@@ -1,9 +1,9 @@
 package perft;
 
-import tools.FenToBoard;
-import tscp.Board;
-import tscp.Constants;
-import tscp.Move;
+import base.FenToBoard;
+import base.Board;
+import base.Constants;
+import base.Move;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -54,7 +54,6 @@ public class PerftCompare implements Constants {
 
     static class PerftResult {
 
-        public long timeTaken = 0;
         long moveCount = 0;
 
     }

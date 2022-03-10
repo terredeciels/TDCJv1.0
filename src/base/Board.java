@@ -1,4 +1,4 @@
-package tscp;
+package base;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -213,38 +213,38 @@ public class Board implements Constants {
                 return false;
             }
             switch (m.to) {
-                case 62:
+                case 62 -> {
                     if (color[F1] != EMPTY || color[G1] != EMPTY || attack(F1, xside) || attack(G1, xside)) {
                         return false;
                     }
                     from = H1;
                     to = F1;
-                    break;
-                case 58:
+                }
+                case 58 -> {
                     if (color[B1] != EMPTY || color[C1] != EMPTY || color[D1] != EMPTY || attack(C1, xside) || attack(D1, xside)) {
                         return false;
                     }
                     from = A1;
                     to = D1;
-                    break;
-                case 6:
+                }
+                case 6 -> {
                     if (color[F8] != EMPTY || color[G8] != EMPTY || attack(F8, xside) || attack(G8, xside)) {
                         return false;
                     }
                     from = H8;
                     to = F8;
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     if (color[B8] != EMPTY || color[C8] != EMPTY || color[D8] != EMPTY || attack(C8, xside) || attack(D8, xside)) {
                         return false;
                     }
                     from = A8;
                     to = D8;
-                    break;
-                default: // shouldn't get here
+                }
+                default -> { // shouldn't get here
                     from = -1;
                     to = -1;
-                    break;
+                }
             }
             color[to] = color[from];
             piece[to] = piece[from];
@@ -252,7 +252,7 @@ public class Board implements Constants {
             piece[from] = EMPTY;
         }
 
-        /* back up information so we can take the move back later. */
+        /* back up information, so we can take the move back later. */
         um.mov = m;
         um.capture = piece[m.to];
         um.castle = castle;
@@ -335,26 +335,26 @@ public class Board implements Constants {
             int to;
 
             switch (m.to) {
-                case 62:
+                case 62 -> {
                     from = F1;
                     to = H1;
-                    break;
-                case 58:
+                }
+                case 58 -> {
                     from = D1;
                     to = A1;
-                    break;
-                case 6:
+                }
+                case 6 -> {
                     from = F8;
                     to = H8;
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     from = D8;
                     to = A8;
-                    break;
-                default: // shouldn't get here
+                }
+                default -> { // shouldn't get here
                     from = -1;
                     to = -1;
-                    break;
+                }
             }
             color[to] = side;
             piece[to] = ROOK;

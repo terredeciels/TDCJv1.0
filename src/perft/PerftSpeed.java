@@ -1,16 +1,16 @@
 package perft;
 
 import perft.PerftCompare.PerftResult;
-import tools.FenToBoard;
-import tscp.Board;
-import tscp.Move;
+import base.FenToBoard;
+import base.Board;
+import base.Move;
 
 import java.io.IOException;
 import java.util.List;
 
 public class PerftSpeed {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         perftTest();
     }
 

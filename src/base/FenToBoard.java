@@ -1,7 +1,6 @@
-package tools;
+package base;
 
-import tscp.Board;
-import tscp.Constants;
+
 
 public class FenToBoard implements Constants {
 
@@ -9,11 +8,11 @@ public class FenToBoard implements Constants {
 
     public static Board toBoard(String fen) {
         board = new Board();
-        initFromFEN(fen, true);
+        initFromFEN(fen);
         return board;
     }
 
-    private static void initFromFEN(String fen, boolean strict) throws IllegalArgumentException {
+    private static void initFromFEN(String fen) throws IllegalArgumentException {
         // pos.clear(); // TODO ?
         int index = 0;
         char ch;
@@ -57,14 +56,9 @@ public class FenToBoard implements Constants {
         if (index + 1 < fen.length() && fen.charAt(index) == ' ') {
             ch = fen.charAt(index + 1);
             switch (ch) {
-                case 'w':
-                    setToPlay(LIGHT);
-                    break;
-                case 'b':
-                    setToPlay(DARK);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Malformatted fen string: expected 'to play' as second field but found " + ch);
+                case 'w' -> setToPlay(LIGHT);
+                case 'b' -> setToPlay(DARK);
+                default -> throw new IllegalArgumentException("Malformatted fen string: expected 'to play' as second field but found " + ch);
             }
             index += 2;
         }
@@ -81,13 +75,13 @@ public class FenToBoard implements Constants {
                     if (ch == 'K') {
                         castles |= WHITE_SHORT_CASTLE;
                         last = 0;
-                    } else if (ch == 'Q' && (!strict || last < 1)) {
+                    } else if (ch == 'Q' && (last < 1)) {
                         castles |= WHITE_LONG_CASTLE;
                         last = 1;
-                    } else if (ch == 'k' && (!strict || last < 2)) {
+                    } else if (ch == 'k' && (last < 2)) {
                         castles |= BLACK_SHORT_CASTLE;
                         last = 2;
-                    } else if (ch == 'q' && (!strict || last < 3)) {
+                    } else if (ch == 'q' && (last < 3)) {
                         castles |= BLACK_LONG_CASTLE;
                         last = 3;
                     } else {
@@ -210,13 +204,4 @@ public class FenToBoard implements Constants {
         }
     }
 
-//    public static char stoneToFenChar(int stone) {
-//        if (stone >= MIN_STONE && stone <= MAX_STONE) {
-//            return fenChars[stone - MIN_STONE];
-//        } else {
-//            return '?';
-//        }
-//    }
-
-    //    public static String getFEN(PositionB pos) {}
 }
