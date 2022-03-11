@@ -2,17 +2,12 @@ package base;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.IntPredicate;
 import java.util.stream.IntStream;
 
 import static java.util.stream.IntStream.range;
 
-public class Board implements Constants {
+public class Board extends ABoard implements Constants {
 
-    public int[] color = new int[64];
-    public int[] piece = new int[64];
-    public int side, xside;
-    public int castle, ep;
     public List<Move> pseudomoves = new ArrayList<>();
     public int halfMoveClock, plyNumber, fifty;
     private UndoMove um = new UndoMove();
@@ -50,30 +45,28 @@ public class Board implements Constants {
         return piece[i] == PION;
     }
 
-    private IntPredicate pieceAJouer() {
-        return i -> color[i] == side;
-    }
-
-    private void piece(int i) {
-        int n;
-        int j;
-        for (j = 0; j < offsets[piece[i]]; ++j) {
-            for (n = i; ; ) {
-                n = mailbox[mailbox64[n] + offset[piece[i]][j]];
-                if (n == -1) break;
-                if (color[n] != VIDE) {
-                    if (color[n] == xside) gen_push(i, n, 1);
-                    break;
-                }
-                gen_push(i, n, 0);
-                if (!slide[piece[i]]) break;
+    private void piece(int case_cour) {
+        int _case, pas;
+        int offs = offsets[piece[case_cour]];
+        for (pas = 0; pas < offs; ++pas) {
+            _case = case_cour;
+            while (true) {
+                _case = caseSuiv(case_cour, _case, pas);
+                if (caseInBoard(_case)) {
+                    if (caseOccuper(_case)) {
+                        if (couleurOpposer(_case)) gen_push(case_cour, _case, 1);
+                        break;
+                    }
+                    gen_push(case_cour, _case, 0);
+                    if (notSlide(case_cour)) break;
+                } else break;
             }
         }
     }
 
     private void ep() {
         /* generate en passant moves */
-        if (ep != -1) if (side == BLANC) {
+        if (caseInBoard(ep)) if (side == BLANC) {
             if ((ep & 7) != 0 && color[ep + 7] == BLANC && piece[ep + 7] == PION) gen_push(ep + 7, ep, 21);
             if ((ep & 7) != 7 && color[ep + 9] == BLANC && piece[ep + 9] == PION) gen_push(ep + 9, ep, 21);
         } else {
@@ -128,7 +121,7 @@ public class Board implements Constants {
                     n = mailbox[mailbox64[n] + offset[piece[i]][j]];
                     if (n == -1) break;
                     if (n == sq) return true;
-                    if (color[n] != VIDE || !slide[piece[i]]) break;
+                    if (color[n] != VIDE || notSlide(i)) break;
                 }
         return false;
     }
