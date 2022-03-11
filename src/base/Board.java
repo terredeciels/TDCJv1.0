@@ -41,9 +41,6 @@ public class Board extends ABoard implements Constants {
         ep();
     }
 
-    private boolean Pion(int i) {
-        return piece[i] == PION;
-    }
 
     private void piece(int case_cour) {
         int _case, pas;

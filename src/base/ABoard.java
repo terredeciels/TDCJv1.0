@@ -2,12 +2,16 @@ package base;
 
 import java.util.function.IntPredicate;
 
+import static base.Constants.PION;
+
 public class ABoard {
     public int[] color = new int[64];
     public int[] piece = new int[64];
     public int side, xside;
     public int castle, ep;
-
+    protected boolean Pion(int i) {
+        return piece[i] == PION;
+    }
     protected IntPredicate pieceAJouer() {
         return i -> color[i] == side;
     }
