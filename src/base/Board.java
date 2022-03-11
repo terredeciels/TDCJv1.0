@@ -2,6 +2,10 @@ package base;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntPredicate;
+import java.util.stream.IntStream;
+
+import static java.util.stream.IntStream.range;
 
 public class Board implements Constants {
 
@@ -29,18 +33,28 @@ public class Board implements Constants {
 
         plyNumber = board.plyNumber;
         halfMoveClock = board.halfMoveClock;
+
     }
 
     public void gen() {
-        int i, j, n;
-        for (i = 0; i < 64; ++i)
-            if (color[i] == side) if (piece[i] == PAWN) PAWN(i);
-            else PIECE(i);
-        CASTLE();
-        EP();
+        IntStream Cases = range(0, 64);
+        Cases.filter(pieceAJouer()).forEach(_case -> {
+            if (Pion(_case)) pion(_case);
+            else piece(_case);
+        });
+        roque();
+        ep();
     }
 
-    private void PIECE(int i) {
+    private boolean Pion(int i) {
+        return piece[i] == PION;
+    }
+
+    private IntPredicate pieceAJouer() {
+        return i -> color[i] == side;
+    }
+
+    private void piece(int i) {
         int n;
         int j;
         for (j = 0; j < offsets[piece[i]]; ++j) {
@@ -57,18 +71,18 @@ public class Board implements Constants {
         }
     }
 
-    private void EP() {
+    private void ep() {
         /* generate en passant moves */
         if (ep != -1) if (side == BLANC) {
-            if ((ep & 7) != 0 && color[ep + 7] == BLANC && piece[ep + 7] == PAWN) gen_push(ep + 7, ep, 21);
-            if ((ep & 7) != 7 && color[ep + 9] == BLANC && piece[ep + 9] == PAWN) gen_push(ep + 9, ep, 21);
+            if ((ep & 7) != 0 && color[ep + 7] == BLANC && piece[ep + 7] == PION) gen_push(ep + 7, ep, 21);
+            if ((ep & 7) != 7 && color[ep + 9] == BLANC && piece[ep + 9] == PION) gen_push(ep + 9, ep, 21);
         } else {
-            if ((ep & 7) != 0 && color[ep - 9] == NOIR && piece[ep - 9] == PAWN) gen_push(ep - 9, ep, 21);
-            if ((ep & 7) != 7 && color[ep - 7] == NOIR && piece[ep - 7] == PAWN) gen_push(ep - 7, ep, 21);
+            if ((ep & 7) != 0 && color[ep - 9] == NOIR && piece[ep - 9] == PION) gen_push(ep - 9, ep, 21);
+            if ((ep & 7) != 7 && color[ep - 7] == NOIR && piece[ep - 7] == PION) gen_push(ep - 7, ep, 21);
         }
     }
 
-    private void CASTLE() {
+    private void roque() {
         /* generate castle moves */
         if (side == BLANC) {
             if ((castle & 1) != 0) gen_push(E1, G1, 2);
@@ -79,7 +93,7 @@ public class Board implements Constants {
         }
     }
 
-    private void PAWN(int i) {
+    private void pion(int i) {
         if (side == BLANC) {
             if ((i & 7) != 0 && color[i - 9] == NOIR) gen_push(i, i - 9, 17);
             if ((i & 7) != 7 && color[i - 7] == NOIR) gen_push(i, i - 7, 17);
@@ -105,7 +119,7 @@ public class Board implements Constants {
 
     private boolean attack(int sq, int s) {
         for (int i = 0; i < 64; ++i)
-            if (color[i] == s) if (piece[i] == PAWN) {
+            if (color[i] == s) if (piece[i] == PION) {
                 if (s == BLANC) {
                     if ((i & 7) != 0 && i - 9 == sq || (i & 7) != 7 && i - 7 == sq) return true;
                 } else if ((i & 7) != 0 && i + 7 == sq || (i & 7) != 7 && i + 9 == sq) return true;
@@ -233,7 +247,7 @@ public class Board implements Constants {
         fifty = um.fifty;
 
         color[m.from] = side;
-        if ((m.bits & 32) != 0) piece[m.from] = PAWN;
+        if ((m.bits & 32) != 0) piece[m.from] = PION;
         else piece[m.from] = piece[m.to];
         if (um.capture == VIDE) {
             color[m.to] = VIDE;
@@ -276,10 +290,10 @@ public class Board implements Constants {
         if ((m.bits & 4) != 0) {
             if (side == BLANC) {
                 color[m.to + 8] = xside;
-                piece[m.to + 8] = PAWN;
+                piece[m.to + 8] = PION;
             } else {
                 color[m.to - 8] = xside;
-                piece[m.to - 8] = PAWN;
+                piece[m.to - 8] = PION;
             }
         }
     }

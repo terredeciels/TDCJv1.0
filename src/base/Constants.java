@@ -1,5 +1,9 @@
 package base;
 
+import java.util.stream.IntStream;
+
+import static java.util.stream.IntStream.range;
+
 public interface Constants {
 
     // String START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
@@ -14,7 +18,7 @@ public interface Constants {
     int NO_COL = -1, NO_ROW = -1, NO_SQUARE = -1;
     int BLANC = 0;
     int NOIR = 1;
-    int PAWN = 0;
+    int PION = 0;
     int KNIGHT = 1;
     int BISHOP = 2; // usage ?
     int ROOK = 3;
