@@ -1,9 +1,8 @@
 package perft;
 
+import base.Board;
+import base.Move;
 import perft.PerftCompare.PerftResult;
-import tools.FenToBoard;
-import tscp.Board;
-import tscp.Move;
 
 import java.io.IOException;
 import java.util.List;
